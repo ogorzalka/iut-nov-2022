@@ -1,0 +1,117 @@
+version: "2"
+services:
+  httpd:
+    image: httpd:2.4
+    depends_on:
+      - php
+    ports:
+      - 80
+    volumes_from:
+      - appdata
+    volumes:
+      - ./config/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./config/httpd/vhost.conf:/usr/local/apache2/conf/vhost.conf:ro
+    networks:
+      - default
+    environment:
+      - APP_PUBLIC_DIR=${APP_PUBLIC_DIR}
+      - APP_MEDIAS_DIR=${APP_MEDIAS_DIR}
+      - APP_REMOTE_MEDIA_ROOT_URI=${APP_REMOTE_MEDIA_ROOT_URI}
+      - REDIS_URL=redis://redis
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../../.data/redis:/data
+    restart: always
+
+  redis-commander:
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+
+  php:
+    build:
+      context: .
+      dockerfile: build/php/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        DOCKER_WWW_DATA_GID: ${DOCKER_WWW_DATA_GID}
+        DOCKER_WWW_DATA_UID: ${DOCKER_WWW_DATA_UID}
+    working_dir: /app
+    volumes_from:
+      - appdata
+      - redis
+    networks:
+      - default
+    volumes:
+      - ./scripts/install.sh:/docker/install.sh
+      - ~/.config/composer:/var/www/.composer
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+      - ./config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug-20.ini:ro
+      - ./scripts/setup-xdebug.sh:/docker/setup-xdebug.sh
+    environment:
+      BLACKFIRE_SERVER_ID: ~
+      BLACKFIRE_SERVER_TOKEN: ~
+      BLACKFIRE_CLIENT_ID: ~
+      BLACKFIRE_CLIENT_TOKEN: ~
+
+  blackfire:
+    image: blackfire/blackfire:2
+    environment:
+      BLACKFIRE_SERVER_ID: ~
+      BLACKFIRE_SERVER_TOKEN: ~
+      BLACKFIRE_CLIENT_ID: ~
+      BLACKFIRE_CLIENT_TOKEN: ~
+
+  db:
+    image: mariadb:10.4
+    ports:
+      - 3306
+    volumes_from:
+      - dbdata
+    networks:
+      - default
+    env_file:
+      - ./envs/mysql.env
+    volumes:
+      - ./config/mysql/mysql-secure-file.cnf:/etc/mysql/conf.d/mysql-secure-file.cnf
+
+  mailhog:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'  # disable saving logs
+    networks:
+      - default
+
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    networks:
+      - default
+    environment:
+      PMA_HOSTS: db
+      UPLOAD_LIMIT: 256M
+
+  redisdata:
+    image: tianon/true
+    volumes:
+      - ../../.data/redis:/data
+
+  appdata:
+    image: tianon/true
+    volumes:
+      - ./../../:/app
+
+  dbdata:
+    image: tianon/true
+    volumes:
+      - ./../../.data/mysql:/var/lib/mysql
+
+networks:
+  default:

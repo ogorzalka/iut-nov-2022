@@ -1,0 +1,64 @@
+version: "2"
+services:
+  php:
+    extra_hosts:
+      - "${APP_TD}.docker.localhost:${HOST_IP}"
+    labels:
+      - traefik.enable=false
+
+  httpd:
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.httpd.rule=Host(`${APP_TD}.docker.localhost`)
+      - traefik.http.routers.httpd.tls=true
+
+
+  #varnish:
+  #  networks:
+  #    - default
+  #    - traefik
+  #  labels:
+  #    - traefik.enable=true
+  #    - traefik.backend=varnish
+  #    - traefik.frontend.rule=Host:${APP_TD}.docker.localhost
+  #    - traefik.port=80
+  #    - traefik.docker.network=traefik
+
+  db:
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.db.rule=Host(`db-${APP_TD}.docker.localhost`)
+      - traefik.http.routers.db.tls=true
+
+  mailhog:
+    ports:
+      - 8025:8025
+      - 1025:1025
+    restart: always
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mailhog.rule=Host(`mail-${APP_TD}.docker.localhost`)
+      - traefik.http.routers.mailhog.tls=true
+
+  pma:
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pma.rule=Host(`pma-${APP_TD}.docker.localhost`)
+      - traefik.http.routers.pma.tls=true
+
+networks:
+  traefik:
+    external:
+      name: traefik
