@@ -1,10 +1,14 @@
 <?php
 $supports = [
-    'post-thumbnail' => [],
+    'post-thumbnails' => [],
     'menus' => [],
     'widgets' => [],
 ];
 
 foreach ($supports as $support => $args) {
-    add_theme_support($support, $args);
+    if (count($args) === 0) {
+        add_theme_support($support);
+    } else {
+        add_theme_support($support, $args);
+    }
 }

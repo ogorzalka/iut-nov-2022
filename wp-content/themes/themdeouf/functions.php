@@ -8,7 +8,8 @@ $core_inc = [
     'taxonomy',
     'menus',
     'sidebars',
-    'fields/project'
+    'fields/project',
+    'fields/project-acf'
 ];
 
 foreach ($core_inc as $file) {
