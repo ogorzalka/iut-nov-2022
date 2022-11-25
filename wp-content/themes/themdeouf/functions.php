@@ -1,13 +1,19 @@
 <?php
 define('DS', DIRECTORY_SEPARATOR);
 
-add_theme_support('post-thumbnails');
-add_theme_support('menus');
+$core_inc = [
+    'supports',
+    'assets',
+    'post_types',
+    'taxonomy',
+    'menus',
+    'sidebars',
+    'fields/project'
+];
 
-require dirname(__FILE__) . DS . 'inc' . DS . 'assets.php';
-require dirname(__FILE__) . DS . 'inc' . DS . 'post_types.php';
-require dirname(__FILE__) . DS . 'inc' . DS . 'taxonomy.php';
-require dirname(__FILE__) . DS . 'inc' . DS . 'menus.php';
+foreach ($core_inc as $file) {
+    require dirname(__FILE__) . DS . 'inc' . DS . $file . '.php';
+}
 
 //add_action('tdo/mon_hook', function($title, $content) {
 //    echo "<h1>{$title}</h1>";
