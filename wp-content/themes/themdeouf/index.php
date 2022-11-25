@@ -4,7 +4,7 @@
     ?>
     <?php while (have_posts()) : the_post(); ?>
         <article>
-            <h1><?php the_title(); ?></h1>
+            <h1><?php echo apply_filters('tdo/the_title', get_the_title(), 'green'); ?></h1>
             <div>
                 <?php the_content(); ?>
             </div>
