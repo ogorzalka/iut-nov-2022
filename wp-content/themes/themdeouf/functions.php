@@ -2,9 +2,12 @@
 define('DS', DIRECTORY_SEPARATOR);
 
 add_theme_support('post-thumbnails');
+add_theme_support('menus');
 
 require dirname(__FILE__) . DS . 'inc' . DS . 'assets.php';
 require dirname(__FILE__) . DS . 'inc' . DS . 'post_types.php';
+require dirname(__FILE__) . DS . 'inc' . DS . 'taxonomy.php';
+require dirname(__FILE__) . DS . 'inc' . DS . 'menus.php';
 
 //add_action('tdo/mon_hook', function($title, $content) {
 //    echo "<h1>{$title}</h1>";
