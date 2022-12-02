@@ -1,0 +1,19 @@
+{
+  "name": "acf/gallery",
+  "title": "Galerie",
+  "description": "Galerie photo",
+  "category": "theme",
+  "apiVersion": 2,
+  "acf": {
+    "mode": "auto",
+    "renderTemplate": "partials/blocks/gallery.php"
+  },
+  "styles": [
+    { "name": "default", "label": "Default", "isDefault": true },
+    { "name": "other", "label": "Other" }
+  ],
+  "supports": {
+    "anchor": true,
+    "jsx": true
+  }
+}

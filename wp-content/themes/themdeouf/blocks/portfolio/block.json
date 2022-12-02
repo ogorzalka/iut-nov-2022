@@ -1,0 +1,20 @@
+{
+  "name": "portfolio/related-project",
+  "title": "Related Project",
+  "description": "Project en relation",
+  "category": "theme",
+  "apiVersion": 2,
+  "style": [ "file:./block.css" ],
+  "acf": {
+    "mode": "auto",
+    "renderTemplate": "partials/blocks/related-project.php"
+  },
+  "styles": [
+    { "name": "default", "label": "Par défault", "isDefault": true },
+    { "name": "grid", "label": "Grille" }
+  ],
+  "supports": {
+    "anchor": true,
+    "jsx": true
+  }
+}

@@ -1,0 +1,17 @@
+
+.testimonial ul {
+    list-style: none;
+}
+
+.testimonial ul li {
+    background: rgba(0,0,0,0.3);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.testimonial.is-style-grid ul {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}

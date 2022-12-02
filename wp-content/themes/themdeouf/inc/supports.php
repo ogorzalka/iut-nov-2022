@@ -3,6 +3,8 @@ $supports = [
     'post-thumbnails' => [],
     'menus' => [],
     'widgets' => [],
+    'wp-block-styles' => [],
+    'block-template-parts' => []
 ];
 
 foreach ($supports as $support => $args) {
