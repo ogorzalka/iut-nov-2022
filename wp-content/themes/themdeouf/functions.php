@@ -8,6 +8,7 @@ $core_inc = [
     'taxonomy',
     'menus',
     'sidebars',
+    'block',
     'fields/project',
     'fields/project-acf'
 ];

@@ -5,6 +5,8 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
         sans-serif;
+
+    --test_variable: red;
 }
 
 .menu {
@@ -14,4 +16,15 @@ body {
     justify-content: center;
     width: 100%;
     gap: 20px;
+    background-color: var(--test_variable);
+}
+
+.wp-block-button.is-style-squared .wp-block-button__link,
+.wp-block-button__link.wp-block-button.is-style-squared {
+    border-radius: 0;
+}
+
+.wp-block-button.is-style-shadow .wp-block-button__link,
+.wp-block-button__link.wp-block-button.is-style-shadow {
+   box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
 }
